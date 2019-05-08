@@ -6,4 +6,24 @@ package tomaest.maquina;
  */
 public class TomaParcial {
 
+	private Dispensador dispensador;
+	private int quant;
+	
+	public TomaParcial(Dispensador d, int q){
+		this.dispensador = d;
+		this.quant = q;
+	}
+	
+	public Dispensador getDispensador(){
+		return dispensador;
+	}
+	
+	public int getQuant(){
+		return quant;
+	}
+	
+	@Override
+	public String toString() {
+		return "Dispensador[ " + dispensador + "] - " + "quantidade: "+ quant + "\n";
+	}
 }

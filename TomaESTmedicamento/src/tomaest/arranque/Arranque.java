@@ -14,14 +14,19 @@ public class Arranque {
 
 	public static void main(String[] args) {
 		// ñº de dispensadores é aleatório, mas no mínimo é 4x2
-		int nHoriz = 4 + (int)(Math.random()*100) % 7;
-		int nVert  = 2 + (int)(Math.random()*100) % 3;
-
+		
+		//CHANGE_START
+		int nHoriz = 4; //+ (int)(Math.random()*100) % 7;
+		int nVert  = 2; //+ (int)(Math.random()*100) % 3;
+		//CHANGE_END
+		
 		// criar os 3 componentes
 		Hardware h = new Hardware( nHoriz, nVert );
 		Maquina maq = new Maquina( h );
-		PhoneApp phone = new PhoneApp( );
-
+		//CHANGE_START
+		PhoneApp phone = new PhoneApp( maq );
+		//CHANGE_END
+		
 		// preparar as condições inicias de teste
 		prepararDispensadoresIniciais( maq );
 		prepararTomasIniciais( maq );
@@ -32,17 +37,20 @@ public class Arranque {
 
 		phone.setLocation( h.getJanela().getWidth() + 30, 20 );
 		phone.setVisible( true );
-		phone.menuPrincipal();
+		//CHANGE_START
+		phone.menuPrincipal(maq);
+		//CHANGE_END
+		
 	}
 
 	/** Configura os dispensadores com as condições iniciais indicadas no enunciado
 	 * @param maq máquina a configurar
 	 */
 	private static void prepararDispensadoresIniciais(Maquina maq) {
-		// TODO falta fazer este método
-		// falta fazer este método
-		// falta fazer este método
-		// falta fazer este método
+		// TODO falta fazer este método ----------------------------------------------------------------------------------------------------------------------
+		//CHANGE_START
+		maq.dispensadoresIniciais();
+		//CHANGE_END
 	}
 
 	/** Configura as tomas que já devem estar criadas aquando do arranque do sistema,
@@ -54,10 +62,9 @@ public class Arranque {
 		// ver a hora atual e colocar os segundos a zero
 		LocalDateTime inicio = LocalDateTime.now();  
 		inicio = inicio.minusSeconds( inicio.getSecond() );
-
-		// TODO falta fazer o resto deste método
-		// falta fazer o resto deste método
-		// falta fazer o resto deste método
-		// falta fazer o resto deste método
+		// TODO falta fazer o resto deste método --------------------------------------------------------------------------------------------------------------
+		//CHANGE_START
+		maq.tomasIniciais(inicio);
+		//CHANGE_END
 	}
 }

@@ -24,6 +24,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
+//CHANGE_START
+import tomaest.maquina.Maquina;
+//CHANGE_END
+
 /** Classe que representa a aplicação de telemóvel. 
  * É a única responsável pela interação com o utilizador.
  * SÓ ESTA CLASSE É QUE DEVE FAZER INTERAÇÕES COM O UTILIZADOR.
@@ -45,11 +49,16 @@ public class PhoneApp extends JFrame {
 	private static final Color corTexto = new Color( 250, 250, 250 );
 	private static final Color corCaixa = new Color( 200, 200, 200 );
 
+	//CHANGE_START
+	private Maquina maq;
+	private int h;
+	private int v;
+	//CHANGE_END
 	
 	/** cria a aplicação indicando qual a máquina com que vai comunicar
 	 * @param maquina máquina que vai ser configurada pela aplicação
 	 */
-	public PhoneApp( ) {
+	public PhoneApp( Maquina maq ) {
 		//setSize(284,590);
 		setTitle( "Phone App");	
 		setDefaultCloseOperation( EXIT_ON_CLOSE );
@@ -65,93 +74,152 @@ public class PhoneApp extends JFrame {
 
 		pack();
 		setResizable( false );
+		
+		//CHANGE_START
+		this.h = maq.getDispensadoresHorizontais();
+		this.v = maq.getDispensadoresVerticais();
+		//CHANGE_END
 	}
-
+	
+	//CHANGE_START
 	/** apresenta o menu principal da aplicação
 	 */
-	public void menuPrincipal() {
+	public void menuPrincipal(Maquina maq) {
 		String opcoes[] = {"Programar Toma", "Carregar Dispensador", "Configurar Dispensador", "Sair"};
 		do {
 			int opcao = showMenu( "Menu principal", opcoes );
-			System.out.println( opcao );
+			//System.out.println( "Menu opcao: " + opcao );
 			switch( opcao ) {
-			case 0: programarToma(); break;
-			case 1: carregarDispensador(); break;
-			case 2: configurarDispensador(); break;
+			case 0: programarToma(maq); break;
+			case 1: carregarDispensador(maq); break;
+			case 2: configurarDispensador(maq); break;
 			case 3: System.exit( 0 );
 			}
 		} while( true );
 	}
-
+	//CHANGE_END
+	
+	
+	//CHANGE_START
+	/** Verificar se a String é integer
+	 * @param s String a avaliar
+	 */
+	public boolean verificarStringInt(String s){ // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	    try{
+	        Integer.parseInt(s);
+	        return true;
+	    } catch (NumberFormatException ex){
+	        return false;
+	    }
+	}
+	//CHANGE_END
+	
+	
 	/** programa uma toma: pede a data, o(s) dispensador(es) e
 	 * a quantidade a usar de cada dispensador(es)
 	 */
-	private void programarToma() {
-		// TODO tem de saber quantos dispensadores colocar 
-		int nHoriz = 4;
-		int nVert = 4;
+	private void programarToma(Maquina maq) {
+		// TODO tem de saber quantos dispensadores colocar
+		//CHANGE_START
+		int nHoriz = h;
+		int nVert = v;
+		//CHANGE_END
 		
 		LocalDateTime quando = escolherData();
+		
 		while( true ) { 
-			int dispNum = escolherDispensador( nHoriz, nVert, false );
+			int dispNum = escolherDispensador( nHoriz, nVert, false, maq);
 			if( dispNum == -1 )
 				return;
 		
 			// TODO qual o nome do medicamento??
-			// qual o nome do medicamento??
-			String nomeMedicamento = "<MEDICAMENTO>";
+			//CHANGE_START
+			String nomeMedicamento = maq.getMedicamento(dispNum);
+			//CHANGE_END
 			
 			String quantStr = pedirValor( "Quantos " + nomeMedicamento+ "?" );
-			int quant = Integer.parseInt( quantStr );
-
+			
+			//CHANGE_START
+			int quant = verificarStringInt(quantStr) ? Integer.parseInt( quantStr ) : 1; // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			//System.out.println(quant);
+			//CHANGE_END
+			
 			// TODO tem de registar a toma
-			// tem de registar a toma
+			
 		}
 	}
+	
 
 	/** pede os dados para carregar o dispensador: qual deles e a quantidade a adicionar
 	 */
-	private void carregarDispensador() {
-		// TODO tem de saber quantos dispensadores colocar 
-		int nHoriz = 4;
-		int nVert = 4;
-		int dispNum = escolherDispensador( nHoriz, nVert, false );
+	private void carregarDispensador(Maquina maq) {
+		// TODO tem de saber quantos dispensadores colocar
+		//CHANGE_START
+		int nHoriz = h;
+		int nVert = v;
+		//CHANGE_END
+		
+		int dispNum = escolherDispensador( nHoriz, nVert, false, maq );
 		if( dispNum == -1 )
 			return;
 		
 		// TODO abrir a tampa do dispensador correto
-		// abrir a tampa do dispensador correto
+		//CHANGE_START
+		maq.abrirDispensador(dispNum);
+		//CHANGE_END
 		
-		// TODO qual o nome do medicamento??
-		String nomeMedicamento = "<MEDICAMENTO>";
+		// TODO qual o nome do medicamento
+		//CHANGE_START
+		String nomeMedicamento = maq.getMedicamento(dispNum);
+		//CHANGE_END
+		
 		String quantStr = pedirValor( "Quantos " + nomeMedicamento+ "?" );
-		int quant = Integer.parseInt( quantStr );
+		
+		//CHANGE_START
+		int quant = verificarStringInt(quantStr) ? Integer.parseInt( quantStr ) : 0; // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		//System.out.println(quant);
+		
+		maq.fecharDispensador(dispNum); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		//CHANGE_END
 		
 		// TODO tem de carregar o dispensador
-		// tem de carregar o dispensador
+		
 	}
+	
 
 	/** pede os dados de configuração de um dispensador:
 	 * qual o dispensador, qual o nome do medicamento e a quantidade de comprimidos
 	 */
-	private void configurarDispensador() {
-		// TODO tem de saber quantos dispensadores colocar 
-		int nHoriz = 4;
-		int nVert = 4;
-		int disp = escolherDispensador( nHoriz, nVert, true );
+	private void configurarDispensador(Maquina maq) {
+		// TODO tem de saber quantos dispensadores colocar
+		//CHANGE_START
+		int nHoriz = h;
+		int nVert = v;
+		//CHANGE_END
+		
+		int disp = escolherDispensador( nHoriz, nVert, true, maq );
 		if( disp == -1 )
 			return;
 		
 		// TODO abrir a tampa do dispensador correto
-		// abrir a tampa do dispensador correto
+		//CHANGE_START
+		maq.abrirDispensador(disp);
+		//CHANGE_END
 		
 		String medicamento = pedirValor( "Qual o medicamento?" );
 		String quantStr = pedirValor( "Quantos " + medicamento+ "?" );
-		int quant = Integer.parseInt( quantStr );
+		
+		//CHANGE_START
+		int quant = verificarStringInt(quantStr) ? Integer.parseInt( quantStr ) : 1; // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		//System.out.println(quant);
+		
+		maq.fecharDispensador(disp); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		//CHANGE_END
 		
 		// TODO tem de configurar o dispensador
-		// tem de configurar o dispensador
+		
 	}
+	
 	
 	/** Apresenta todos os dispensadores da máquina, sendo que alguns ficam ativos e outros desativos.
 	 * Os que ficam ativos são os que obedecem ai critério de estarem ou não livres
@@ -160,7 +228,7 @@ public class PhoneApp extends JFrame {
 	 * @param livre é para apresentar os livres (true) ou ocupados (false)?
 	 * @return qual o número do dispensador escolhido
 	 */
-	private int escolherDispensador( int nHoriz, int nVert, boolean livre ) {
+	private int escolherDispensador( int nHoriz, int nVert, boolean livre , Maquina m) {
 		JPanel principal = createInterfacePanel();
 		int topo = screenRect.y;
 		topo = meterTitulo("Escolha o dispensador", principal, topo);
@@ -178,21 +246,29 @@ public class PhoneApp extends JFrame {
 				bt.setBackground( corCaixa );
 				principal.add( bt );
 				
-				// TODO tem de saber se o dispensador está usado ou livre
-				// tem de saber se o dispensador está usado ou livre
-				boolean estaLivre = false;
+				//CHANGE_START
+				//System.out.println("Disp > " + btNum);
+				//CHANGE_END
+				
+				// TODO tem de saber se o dispensador está usado ou livre <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+				//CHANGE_START
+				boolean estaLivre = m.estaLivre(btNum);
+				//CHANGE_END
+				
+				//CHANGE_START
 				if( !estaLivre ) {
 					// TODO qual o nome do medicamento??
-					String medicamento = "MEDICAMENTO";;
+					String medicamento = m.getMedicamento(btNum);
+					//System.out.println("Texto: " + medicamento);
 					
 					// TODO qual a quantidade existente?
-					int quant = 0;
+					int quant = m.getQuantidade(btNum);
+					//System.out.println("Quant: " + quant);
 					bt.setToolTipText( medicamento + "(" + quant + ")" );
 				}
+				//CHANGE_END
 				
-				
-				// TODO tem de saber se o dispensador está usado ou livre
-				// tem de saber se o dispensador está usado ou livre
+				// TODO tem de saber se o dispensador está usado ou livre <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 				if( estaLivre == livre ) {
 					bt.addActionListener( new ActionListener() {
 						public void actionPerformed(ActionEvent e) {						
@@ -222,6 +298,7 @@ public class PhoneApp extends JFrame {
 		setInterface(principal);
 		return esperaResposta( );
 	}
+	
 	
 	/** apresenta uma lista de datas para o utilizador escolher uma delas
 	 * @return a data escolhida pelo utilizador
@@ -288,6 +365,7 @@ public class PhoneApp extends JFrame {
 		return listaData.getSelectedValue().getData();
 	}
 
+	
 	/** apresenta um pergunta ao utilziador para que este introduza um valor
 	 * @param titulo pergunta a colocar
 	 * @return retorna o valor pedido (será sempre uma string, a qual
@@ -313,6 +391,7 @@ public class PhoneApp extends JFrame {
 		return quant.getText();
 	}
 
+	
 	/** cria um botão que representa o ok nas janeals de pedir dados 
 	 * @param topo coordenada y onde colocar o botão
 	 * @return o botão criado
@@ -327,14 +406,14 @@ public class PhoneApp extends JFrame {
 		});
 		return btOk;
 	}
+
+
+	// A PARTIR DESTE PONTO O CÓDIGO NÃO DEVE SER ALTERADO
+	// A PARTIR DESTE PONTO O CÓDIGO NÃO DEVE SER ALTERADO
+	// A PARTIR DESTE PONTO O CÓDIGO NÃO DEVE SER ALTERADO
+	// A PARTIR DESTE PONTO O CÓDIGO NÃO DEVE SER ALTERADO
+	// A PARTIR DESTE PONTO O CÓDIGO NÃO DEVE SER ALTERADO
 	
-
-
-	// A PARTIR DESTE PONTO O CÓDIGO NÃO DEVE SER ALTERADO
-	// A PARTIR DESTE PONTO O CÓDIGO NÃO DEVE SER ALTERADO
-	// A PARTIR DESTE PONTO O CÓDIGO NÃO DEVE SER ALTERADO
-	// A PARTIR DESTE PONTO O CÓDIGO NÃO DEVE SER ALTERADO
-	// A PARTIR DESTE PONTO O CÓDIGO NÃO DEVE SER ALTERADO
 	
 	/** cria uma painel de interface que serve para colocar os restantes elementos de interação
 	 * @return o painel criado

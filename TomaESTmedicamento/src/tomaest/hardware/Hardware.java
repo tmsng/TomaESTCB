@@ -28,26 +28,26 @@ import javax.swing.Timer;
 
 import tomaest.maquina.Maquina;
 
-/** Classe que simula o hardware da máquina. 
+/** Classe que simula o hardware da mï¿½quina. 
  * 
- * @author F. Sérgio Barbosa
+ * @author F. Sï¿½rgio Barbosa
   */
-//ESTA CLASSE NÃO PODE SER ALTERADA
-//ESTA CLASSE NÃO PODE SER ALTERADA
-//ESTA CLASSE NÃO PODE SER ALTERADA
-//ESTA CLASSE NÃO PODE SER ALTERADA
-//ESTA CLASSE NÃO PODE SER ALTERADA
+//ESTA CLASSE Nï¿½O PODE SER ALTERADA
+//ESTA CLASSE Nï¿½O PODE SER ALTERADA
+//ESTA CLASSE Nï¿½O PODE SER ALTERADA
+//ESTA CLASSE Nï¿½O PODE SER ALTERADA
+//ESTA CLASSE Nï¿½O PODE SER ALTERADA
 public class Hardware {
 
-	private Maquina maquina;  // software que controla a máquina
+	private Maquina maquina;  // software que controla a mï¿½quina
 	
-	// variáveis para guardar os vários estados da máquina 
+	// variï¿½veis para guardar os vï¿½rios estados da mï¿½quina 
 	private boolean gavetaEstaAberta, gavetaEstaVazia;
 	private int nVert, nHoriz;
 	private boolean tampasOpen[][];
 	
 	private Clip alarme; // som do alarme
-	private HardwareJanela janela; // janela que apresenta a máquina
+	private HardwareJanela janela; // janela que apresenta a mï¿½quina
 
 	/** cria o hardware indicando quantos dispensadores tem na horizontal e na vertical
 	 * @param nHoriz quantos dispensadores tem na horizontal 
@@ -70,7 +70,7 @@ public class Hardware {
 	}
 
 	/** abre a tapa de um dispensador
-	 * @param t número do dispensador de que se pretende abrir a tampa
+	 * @param t nï¿½mero do dispensador de que se pretende abrir a tampa
 	 */
 	public void abrirTampa( int t ) {
 		tampasOpen[t%nHoriz][t/nHoriz] = true;
@@ -78,7 +78,7 @@ public class Hardware {
 	}
 
 	/** fecha a tapa de um dispensador
-	 * @param t número do dispensador de que se pretende fechar a tampa
+	 * @param t nï¿½mero do dispensador de que se pretende fechar a tampa
 	 */
 	public void fecharTampa( int t ) {
 		tampasOpen[t%nHoriz][t/nHoriz] = false;
@@ -94,15 +94,15 @@ public class Hardware {
 		janela.fundo.repaint();
 	}
 
-	/** retorna o número de dispensadores que tem na horizontal
-	 * @return o número de dispensadores que tem na horizontal
+	/** retorna o nï¿½mero de dispensadores que tem na horizontal
+	 * @return o nï¿½mero de dispensadores que tem na horizontal
 	 */
 	public int getHorizontais() {
 		return nHoriz;
 	}
 
-	/** o número de dispensadores que tem na vertical
-	 * @return o número de dispensadores que tem na vertical
+	/** o nï¿½mero de dispensadores que tem na vertical
+	 * @return o nï¿½mero de dispensadores que tem na vertical
 	 */
 	public int getVerticais() {
 		return nVert;
@@ -131,14 +131,14 @@ public class Hardware {
 		this.maquina = maquina;
 	}
 	
-	/** devolve a janela de simulação
-	 * @return  a janela de simulação
+	/** devolve a janela de simulaï¿½ï¿½o
+	 * @return  a janela de simulaï¿½ï¿½o
 	 */
 	public JFrame getJanela() {
 		return janela;
 	}
 
-	/** cria um temporizaodr, para que este informe a aplicação
+	/** cria um temporizaodr, para que este informe a aplicaï¿½ï¿½o
 	 * da passagem do tempo a cada 20 segundos
 	 */
 	private void setupTimer() {
@@ -152,7 +152,7 @@ public class Hardware {
 		t.start();
 	}
 	
-	/** lê a informação do ficheiro de som e inicializa o alarme
+	/** lï¿½ a informaï¿½ï¿½o do ficheiro de som e inicializa o alarme
 	 */
 	private void setupAlarme() {
 	     try {
@@ -172,8 +172,8 @@ public class Hardware {
 	      }
 	}
 
-	/** janela que mostra a simulação da máquina
-	 * @author F. Sérgio Barbosa
+	/** janela que mostra a simulaï¿½ï¿½o da mï¿½quina
+	 * @author F. Sï¿½rgio Barbosa
 	 */
 	private class HardwareJanela extends JFrame { 
 
@@ -193,7 +193,7 @@ public class Hardware {
 		private JPanel fundo;
 
 		public HardwareJanela(int nHoriz, int nVert) throws HeadlessException {
-			setTitle( "TomaEST: Máquina");
+			setTitle( "TomaEST: Mï¿½quina");
 			tampasOpen = new boolean[ nHoriz][nVert ];
 			maquinaImg = prepararImagemMaquina( nHoriz, nVert );
 			setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
