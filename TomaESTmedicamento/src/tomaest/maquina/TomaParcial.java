@@ -24,6 +24,6 @@ public class TomaParcial {
 	
 	@Override
 	public String toString() {
-		return "Dispensador[ " + dispensador + "] - " + "quantidade: "+ quant + "\n";
+		return "Dispensador[ " + dispensador + "] - " + "quantidade: " + quant + "\n";
 	}
 }

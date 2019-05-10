@@ -38,6 +38,7 @@ public class Arranque {
 		phone.setLocation( h.getJanela().getWidth() + 30, 20 );
 		phone.setVisible( true );
 		//CHANGE_START
+		maq.ligaLed();
 		phone.menuPrincipal(maq);
 		//CHANGE_END
 		
@@ -47,9 +48,12 @@ public class Arranque {
 	 * @param maq máquina a configurar
 	 */
 	private static void prepararDispensadoresIniciais(Maquina maq) {
-		// TODO falta fazer este método ----------------------------------------------------------------------------------------------------------------------
+		// TODO falta fazer este método
 		//CHANGE_START
-		maq.dispensadoresIniciais();
+		maq.configurarDispensador(0, "ProgJa", 5);
+		maq.configurarDispensador(1, "JavaPill", 20);
+		maq.configurarDispensador(2, "InstantPOO", 5);
+		maq.configurarDispensador(3, "CodeNight", 25);
 		//CHANGE_END
 	}
 
@@ -59,12 +63,20 @@ public class Arranque {
 	 * @param maq máquina a configurar
 	 */
 	private static void prepararTomasIniciais(Maquina maq) {
+		//CHANGE_START
 		// ver a hora atual e colocar os segundos a zero
 		LocalDateTime inicio = LocalDateTime.now();  
 		inicio = inicio.minusSeconds( inicio.getSecond() );
-		// TODO falta fazer o resto deste método --------------------------------------------------------------------------------------------------------------
-		//CHANGE_START
-		maq.tomasIniciais(inicio);
+		// TODO falta fazer o resto deste método
+		
+		LocalDateTime inicioMais1 = inicio.plusMinutes(1);
+		LocalDateTime inicioMais10 = inicio.plusMinutes(10);
+		
+		maq.addToma(inicioMais1, 0, 2);
+		maq.addToma(inicioMais1, 1, 1);
+
+		maq.addToma(inicioMais10, 2, 1);
+		maq.addToma(inicioMais10, 3, 1);
 		//CHANGE_END
 	}
 }

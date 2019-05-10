@@ -16,9 +16,15 @@ public class Dispensador {
 	/** adiciona numa certa quantidade de comprimidos ao dispensador
 	 * @param quant quantidade a adicionar ao dispensador
 	 */
-	public Dispensador(String nomeMedicamento, int quantidadeTotal) {
+	public Dispensador(String nomeMedicamento, int quantidadeTotal){
 		setquantidadeTotal(quantidadeTotal);
 		setNomeMedicamento(nomeMedicamento);
+	}
+	
+	
+	public Dispensador(){
+		setquantidadeTotal(0);
+		setNomeMedicamento("");
 	}
 
 
@@ -82,7 +88,7 @@ public class Dispensador {
 //		
 //		return true;
 //	}
-	
+//	
 	
 	@Override
 	public String toString() {

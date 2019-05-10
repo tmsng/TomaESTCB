@@ -18,12 +18,20 @@ public class Toma {
 		this.quando = q;
 	}
 	
+	public LocalDateTime getQuando() {
+		return quando;
+	}
+	
 	public void addPartes(TomaParcial tP){
 		partes.add(tP);
 	}
 	
-	public List<TomaParcial> getPartes(){ 
-		return Collections.unmodifiableList(partes);
+	public ArrayList<TomaParcial> getPartes(){ 
+		return partes;
+	}
+
+	public TomaParcial getPartesIdx(int idx){ 
+		return partes.get(idx);
 	}
 	
 	@Override

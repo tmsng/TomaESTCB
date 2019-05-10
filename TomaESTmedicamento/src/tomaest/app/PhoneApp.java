@@ -50,7 +50,6 @@ public class PhoneApp extends JFrame {
 	private static final Color corCaixa = new Color( 200, 200, 200 );
 
 	//CHANGE_START
-	private Maquina maq;
 	private int h;
 	private int v;
 	//CHANGE_END
@@ -100,21 +99,6 @@ public class PhoneApp extends JFrame {
 	//CHANGE_END
 	
 	
-	//CHANGE_START
-	/** Verificar se a String é integer
-	 * @param s String a avaliar
-	 */
-	public boolean verificarStringInt(String s){ // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	    try{
-	        Integer.parseInt(s);
-	        return true;
-	    } catch (NumberFormatException ex){
-	        return false;
-	    }
-	}
-	//CHANGE_END
-	
-	
 	/** programa uma toma: pede a data, o(s) dispensador(es) e
 	 * a quantidade a usar de cada dispensador(es)
 	 */
@@ -139,13 +123,14 @@ public class PhoneApp extends JFrame {
 			
 			String quantStr = pedirValor( "Quantos " + nomeMedicamento+ "?" );
 			
-			//CHANGE_START
-			int quant = verificarStringInt(quantStr) ? Integer.parseInt( quantStr ) : 1; // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-			//System.out.println(quant);
-			//CHANGE_END
+			int quant = Integer.parseInt( quantStr );
 			
 			// TODO tem de registar a toma
+			//CHANGE_START
+			maq.addToma(quando, dispNum, quant);
 			
+			maq.ligaLed();
+			//CHANGE_END
 		}
 	}
 	
@@ -175,15 +160,14 @@ public class PhoneApp extends JFrame {
 		
 		String quantStr = pedirValor( "Quantos " + nomeMedicamento+ "?" );
 		
-		//CHANGE_START
-		int quant = verificarStringInt(quantStr) ? Integer.parseInt( quantStr ) : 0; // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-		//System.out.println(quant);
+		int quant = Integer.parseInt( quantStr );
 		
-		maq.fecharDispensador(dispNum); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-		//CHANGE_END
+		//CHANGE_START
+		maq.fecharDispensador(dispNum);
 		
 		// TODO tem de carregar o dispensador
-		
+		maq.carregarDispensador(dispNum, quant);
+		//CHANGE_END
 	}
 	
 
@@ -197,27 +181,26 @@ public class PhoneApp extends JFrame {
 		int nVert = v;
 		//CHANGE_END
 		
-		int disp = escolherDispensador( nHoriz, nVert, true, maq );
-		if( disp == -1 )
+		int dispNum = escolherDispensador( nHoriz, nVert, true, maq );
+		if( dispNum == -1 )
 			return;
 		
 		// TODO abrir a tampa do dispensador correto
 		//CHANGE_START
-		maq.abrirDispensador(disp);
+		maq.abrirDispensador(dispNum);
 		//CHANGE_END
 		
 		String medicamento = pedirValor( "Qual o medicamento?" );
 		String quantStr = pedirValor( "Quantos " + medicamento+ "?" );
 		
-		//CHANGE_START
-		int quant = verificarStringInt(quantStr) ? Integer.parseInt( quantStr ) : 1; // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-		//System.out.println(quant);
+		int quant = Integer.parseInt( quantStr );
 		
-		maq.fecharDispensador(disp); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-		//CHANGE_END
+		//CHANGE_START
+		maq.fecharDispensador(dispNum);
 		
 		// TODO tem de configurar o dispensador
-		
+		maq.configurarDispensador(dispNum, medicamento, quant);
+		//CHANGE_END
 	}
 	
 	
@@ -247,7 +230,7 @@ public class PhoneApp extends JFrame {
 				principal.add( bt );
 				
 				//CHANGE_START
-				//System.out.println("Disp > " + btNum);
+				//System.out.println("\nDisp > " + btNum);
 				//CHANGE_END
 				
 				// TODO tem de saber se o dispensador está usado ou livre <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
